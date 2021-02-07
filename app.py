@@ -1,8 +1,10 @@
 from flask import Flask,jsonify,request
 from flask_mysql_connector import MySQL
+from flask_cors import CORS
 
 # from flask_mysqldb import MySQL
 app = Flask(__name__)
+CORS(app)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -25,7 +27,7 @@ def url_to_image(url):
 	# return the image
 	return image
 
-
+@cross_origin()
 @app.route('/v1/predict',methods=['POST'])
 def predict():
     # imgURL = "https://s3.ap-south-1.amazonaws.com/gocomet-images/carriers/logo/one-line.png"
@@ -47,6 +49,7 @@ def predict():
     resp.status_code = 200
     return resp
 
+@cross_origin()
 @app.route('/v1/search',methods=['POST'])
 def search():
     _json = (request.json)
